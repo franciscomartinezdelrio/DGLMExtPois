@@ -29,6 +29,13 @@ You can install the released version of DGLMExtPois from [CRAN](https://CRAN.R-p
 install.packages("DGLMExtPois")
 ```
 
+and the development version from github with:
+
+```{r gh-installation, eval = FALSE}
+devtools::install_github("franciscomartinezdelrio/DGLMExtPois")
+```
+
+
 ## Example
 
 This is a basic example which shows you how to solve a common problem:
