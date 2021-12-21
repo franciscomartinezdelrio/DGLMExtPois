@@ -1,0 +1,69 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+# DGLMExtPois
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+DGLMExtPois is a package that contains statistical functions for the model
+estimation, dispersion testing and diagnosis of hyper-Poisson and
+Conway-Maxwell-Poisson regression models.
+
+## Installation
+
+You can install the released version of DGLMExtPois from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("DGLMExtPois")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example hP}
+library(DGLMExtPois)
+library(Ecdat)
+Bids$size.sq <- Bids$size ^ 2
+hP.bids <- glm.hP(formula.mu = numbids ~ leglrest + rearest + finrest +
+                    whtknght + bidprem + insthold + size + size.sq +
+                    regulatn,
+                    formula.gamma = numbids ~ 1,
+                    data = Bids)
+summary(hP.bids)
+AIC(hP.bids)
+BIC(hP.bids)
+coef(hP.bids)
+confint(hP.bids)
+head(fitted(hP.bids))
+head(residuals(hP.bids))
+```
+
+
+```{r example CMP}
+CMP.bids <- glm.CMP(formula.mu = numbids ~ leglrest + rearest + finrest +
+                    whtknght + bidprem + insthold + size + size.sq +
+                    regulatn,
+                    formula.nu = numbids ~ 1,
+                    data = Bids)
+summary(CMP.bids)
+AIC(CMP.bids)
+BIC(CMP.bids)
+coef(CMP.bids)
+confint(CMP.bids)
+head(fitted(CMP.bids))
+head(residuals(CMP.bids))
+```
+
