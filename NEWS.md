@@ -1,3 +1,7 @@
+## DGLMExtPois 0.1.4
+
+* Removed dependency with progress package
+
 ## DGLMExtPois 0.1.3
 
 * Fixed error produced in some dataset when estimating parameters of hP models

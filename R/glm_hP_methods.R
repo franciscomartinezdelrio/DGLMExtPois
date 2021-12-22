@@ -134,7 +134,11 @@ format.perc <- function(probs, digits)
 #' object.
 #'
 #' @param object a fitted object of class inheriting from \code{"glm_hP"}.
-#' @inheritParams stats::confint
+#' @param parm a specification of which parameters are to be given confidence
+#'   intervals, either a vector of numbers or a vector of names. If missing, all
+#'   parameters are considered.
+#' @param level the confidence level required.
+#' @param ... additional argument(s) for methods.
 #' @return A matrix (or vector) with columns giving lower and upper confidence
 #'   limits for each \code{beta} parameter. These will be labelled as
 #'   (1-level)/2 and 1 - (1-level)/2 in \% (by default 2.5\% and 97.5\%).

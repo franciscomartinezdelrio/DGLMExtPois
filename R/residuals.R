@@ -72,9 +72,9 @@ residuals.glm_hP <- function(object, type = c("pearson", "response", "quantile")
     return(res_hp(object, type))
 
   residuals_sim <- matrix(0, nrow = length(object$residuals), ncol = rep)
-  pb <- progress::progress_bar$new(total = rep)
+  pb <- utils::txtProgressBar(min = 1, max = rep, initial = 1, style = 3)
   for (x in 1:rep) {
-    pb$tick()
+    utils::setTxtProgressBar(pb, x)
     tmp <- simulation_hp(object, type)
     residuals_sim[, x] <- tmp
   }
@@ -202,9 +202,9 @@ residuals.glm_CMP <- function(object, type = c("pearson", "response","quantile")
     return(res_cmp(object, type))
 
   residuals_sim <- matrix(0, nrow = length(object$residuals), ncol = rep)
-  pb <- progress::progress_bar$new(total = rep)
+  pb <- utils::txtProgressBar(min = 1, max = rep, initial = 1, style = 3)
   for (x in 1:rep) {
-    pb$tick()
+    utils::setTxtProgressBar(pb, x)
     tmp <- simulation_cmp(object, type)
     residuals_sim[, x] <- tmp
   }
