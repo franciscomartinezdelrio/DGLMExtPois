@@ -1,6 +1,6 @@
 #'AIC and BIC for COM-Poisson Fitted Models
 #'
-#'Computes the Akaike's information criterion or the Shwarz's Bayesian criterion
+#'Computes the Akaike's information criterion or the Schwarz's Bayesian criterion
 #'for COM-Poisson Fits
 #'
 #'@param object an object of class \code{"glm_CMP"}, typically the result of a

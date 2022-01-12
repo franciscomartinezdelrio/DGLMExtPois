@@ -1,6 +1,6 @@
 #'AIC and BIC for hyper-Poisson Fits
 #'
-#'Computes the Akaike's information criterion or the Shwarz's Bayesian criterion
+#'Computes the Akaike's information criterion or the Schwarz's Bayesian criterion
 #'for hyper-Poisson Fits
 #'
 #'@param object an object of class \code{"glm_hP"}, typically the result of a

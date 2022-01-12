@@ -20,7 +20,7 @@ call to \code{\link{glm.CMP}}.}
     default \code{k = 2} is the classical AIC.}
 }
 \description{
-Computes the Akaike's information criterion or the Shwarz's Bayesian criterion
+Computes the Akaike's information criterion or the Schwarz's Bayesian criterion
 for COM-Poisson Fits
 }
 \examples{
