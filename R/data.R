@@ -18,7 +18,7 @@
 #'   may, 203-223.
 "Bids"
 
-#' Customer profile of a company of household supplies
+#' Customer profile for a household supplies company
 #'
 #' An observation corresponds to the census tracts within 10-mile radius around
 #' certain store.

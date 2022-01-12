@@ -3,7 +3,7 @@
 \docType{data}
 \name{CustomerProfile}
 \alias{CustomerProfile}
-\title{Customer profile of a company of household supplies}
+\title{Customer profile for a household supplies company}
 \format{
 A data frame with 110 rows and 6 variables: \describe{
   \item{ncust}{number of customer of the census tracts who visit the store.}
