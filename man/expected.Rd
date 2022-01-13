@@ -57,7 +57,7 @@ CMP_expected(CMP.fit)
 }
 \references{
 Hilbe, J. M. (2011).Negative Binomial Regression. (2nd ed.).
- Cambridge University Press.#'
+ Cambridge University Press.
 
  Long, J. S. & Freese, J. (2014). Regression Models for Categorical Dependent
  Variables using STATA. (3rd ed.). Stata Press.
