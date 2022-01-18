@@ -81,7 +81,8 @@
 #'   \item{\code{matrix.gamma}}{if requested, the gamma model matrix.}
 #'   \item{\code{model.mu}}{if requested (the default) the mu model frame.}
 #'   \item{\code{model.gamma}}{if requested (the default) the gamma model
-#'   frame.}
+#'   frame.} \item{\code{nloptr}}{an object of class \code{"nloptr"} with the
+#'   result returned by the optimizer \code{\link[nloptr]{nloptr}}}
 #'
 #' @export
 #'
@@ -181,20 +182,40 @@ glm.hP <- function(formula.mu, formula.gamma, init.beta = NULL,
   q1 <- ncol(matrizmu) # Number of coefficients of mean equation
   q2 <- ncol(matrizgamma) # Number of coefficients of dispersion equation
 
+  total_loglik <- 0
   loglik <- function(param) {
+    ptm <- proc.time()
+
     lambda     <- exp(param[(q1 + 1):(q1 + n)])
     beta_gamma <- param[(q1 + n + 1):(q1 + n + q2)]
     gamma      <- as.vector(exp(matrizgamma %*% beta_gamma))
-    return(- sum(weights * (y * log(lambda) -
+    value <- - sum(weights * (y * log(lambda) -
                               lgamma(gamma + y) + lgamma(gamma) -
-                              log(f11(lambda, gamma, maxiter_series = maxiter_series, tol = tol)))))
+                              log(f11(lambda, gamma, maxiter_series = maxiter_series, tol = tol))))
+    end <- proc.time() - ptm
+    total_loglik <<- total_loglik + unclass(end)[3]
+    return(value)
+    # return(- sum(weights * (y * log(lambda) -
+    #                           lgamma(gamma + y) + lgamma(gamma) -
+    #                           log(f11(lambda, gamma, maxiter_series = maxiter_series, tol = tol)))))
   }
 
   # Gradient of the objective function
+  # total_loglik_grad <- 0
   loglik_grad <- function(param) {
+    # ptm <- proc.time()
     lambda     <- exp(param[(q1+1):(q1+n)])
     beta_gamma <- param[(q1+n+1):(q1+n+q2)]
     gamma      <- as.vector(exp(matrizgamma %*% beta_gamma))
+
+    # value <- -c(rep(0, q1),
+    #            weights * (y / lambda - means_hp(lambda, gamma, maxiter_series = maxiter_series, tol = tol) / lambda) * lambda,
+    #            (weights * (-digamma(gamma + y) +
+    #                          means_psiy(lambda, gamma, maxiter_series, tol))) %*%
+    #              t(t(matrizgamma) %*% diag(gamma)))
+    # end <- proc.time() - ptm
+    # total_loglik_grad <<- total_loglik_grad + unclass(end)[3]
+    # return(value)
     return(-c(rep(0, q1),
               weights * (y / lambda - means_hp(lambda, gamma, maxiter_series = maxiter_series, tol = tol) / lambda) * lambda,
               (weights * (-digamma(gamma + y) +
@@ -203,7 +224,17 @@ glm.hP <- function(formula.mu, formula.gamma, init.beta = NULL,
   }
 
   # Constraints
+  # time_constraints <- 0
   constraints <- function(param) {
+    # ptm <- proc.time()
+    beta     <- param[1:q1]
+    lambda   <- exp(param[(q1+1):(q1+n)])
+    beta_gam <- param[(q1+n+1):(q1+n+q2)]
+    gam      <- as.vector(exp(matrizgamma %*% beta_gam))
+    v <- exp(offset + matrizmu %*% beta) - means_hp(lambda, gam, maxiter_series = maxiter_series, tol = tol)
+    # end <- proc.time() - ptm
+    # time_constraints <<- time_constraints + unclass(end)[3]
+    # return(v)
     beta     <- param[1:q1]
     lambda   <- exp(param[(q1+1):(q1+n)])
     beta_gam <- param[(q1+n+1):(q1+n+q2)]
@@ -212,7 +243,25 @@ glm.hP <- function(formula.mu, formula.gamma, init.beta = NULL,
   }
 
   # Gradient constraints
+  # time_constraints_grad <-  0
+  # tiempo <- 0
   constraints_grad <- function(param) {
+    # ptm <- proc.time()
+    # beta_mu    <- param[1:q1]
+    # mu         <- exp(offset + matrizmu %*% beta_mu)
+    # lambda     <- exp(param[(q1+1):(q1+n)])
+    # beta_gamma <- param[(q1+n+1):(q1+n+q2)]
+    # gamma      <- as.vector(exp(matrizgamma %*% beta_gamma))
+    # gradbeta   <- t(matrizmu) %*% diag(as.vector(mu))
+    # ptm <- proc.time()
+    # gradlambda <- - diag(variances_hp(lambda, gamma, maxiter_series = maxiter_series, tol = tol) / lambda) * lambda
+    # end <- proc.time() - ptm
+    # tiempo <<- tiempo + unclass(end)[3]
+    # gradgamma <- diag(covars_psiy(lambda, gamma, maxiter_series, tol) * gamma) %*% matrizgamma
+    # v <- cbind(t(gradbeta), t(gradlambda), gradgamma)
+    # end <- proc.time() - ptm
+    # time_constraints_grad <<- time_constraints_grad + unclass(end)[3]
+    # return(v)
     beta_mu    <- param[1:q1]
     mu         <- exp(offset + matrizmu %*% beta_mu)
     lambda     <- exp(param[(q1+1):(q1+n)])
@@ -243,6 +292,7 @@ glm.hP <- function(formula.mu, formula.gamma, init.beta = NULL,
     }
     my_opts[names(opts)] <- opts
   }
+
   fit <- nloptr::nloptr(param0,
                         eval_f = loglik,
                         eval_grad_f = loglik_grad,
@@ -250,11 +300,16 @@ glm.hP <- function(formula.mu, formula.gamma, init.beta = NULL,
                         eval_jac_g_eq = constraints_grad,
                         opts = my_opts
   )
+  cat("loglik:", total_loglik, '\n')
+  cat("loglik_grad:", total_loglik_grad, '\n')
+  cat("constraints:", time_constraints, '\n')
+  cat("constraints_grad:", time_constraints_grad, '\n')
+  cat(tiempo, '\n')
 
   fit$pars <- fit$solution
 
   results <- list(
-    todo = fit,
+    nloptr = fit,
     offset = unname(stats::model.extract(a.mu, "offset")),
     aic = 2 * (fit$objective) + (q1 + q2) * 2,
     logver = fit$objective,

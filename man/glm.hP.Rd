@@ -116,7 +116,8 @@ fitting process should be returned as a component of the returned value.}
   \item{\code{matrix.gamma}}{if requested, the gamma model matrix.}
   \item{\code{model.mu}}{if requested (the default) the mu model frame.}
   \item{\code{model.gamma}}{if requested (the default) the gamma model
-  frame.}
+  frame.} \item{\code{nloptr}}{an object of class \code{"nloptr"} with the
+  result returned by the optimizer \code{\link[nloptr]{nloptr}}}
 }
 \description{
 The \code{glm.hP} function is used to fit a hyper-Poisson double generalized
