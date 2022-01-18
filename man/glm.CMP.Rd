@@ -100,7 +100,9 @@ fitting process should be returned as a component of the returned value.}
   default) the y vector used.} \item{\code{matrix.mu}}{if requested, the mu
   model matrix.} \item{\code{matrix.nu}}{if requested, the nu model matrix.}
   \item{\code{model.mu}}{if requested (the default) the mu model frame.}
-  \item{\code{model.nu}}{if requested (the default) the nu model frame.}
+  \item{\code{model.nu}}{if requested (the default) the nu model
+  frame.}\item{\code{nloptr}}{an object of class \code{"nloptr"} with the
+  result returned by the optimizer \code{\link[nloptr]{nloptr}}}
 }
 \description{
 The \code{glm.CMP} function is used to fit a COM-Poisson double generalized
@@ -120,8 +122,8 @@ summary(fit)
 }
 \references{
 Huang, A. (2017). Mean-parametrized Conway–Maxwell–Poisson
-regression models for dispersed counts. Statistical Modelling 17, 359--380.
+  regression models for dispersed counts. Statistical Modelling 17, 359--380.
 
-Johnson, S. G. (2018). \href{https://CRAN.R-project.org/package=nloptr}{The
-nlopt nonlinear-optimization package}
+  Johnson, S. G. (2018). \href{https://CRAN.R-project.org/package=nloptr}{The
+  nlopt nonlinear-optimization package}
 }

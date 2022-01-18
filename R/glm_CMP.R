@@ -35,14 +35,16 @@
 #'   default) the y vector used.} \item{\code{matrix.mu}}{if requested, the mu
 #'   model matrix.} \item{\code{matrix.nu}}{if requested, the nu model matrix.}
 #'   \item{\code{model.mu}}{if requested (the default) the mu model frame.}
-#'   \item{\code{model.nu}}{if requested (the default) the nu model frame.}
+#'   \item{\code{model.nu}}{if requested (the default) the nu model
+#'   frame.}\item{\code{nloptr}}{an object of class \code{"nloptr"} with the
+#'   result returned by the optimizer \code{\link[nloptr]{nloptr}}}
 #' @export
 #'
 #' @references Huang, A. (2017). Mean-parametrized Conway–Maxwell–Poisson
-#' regression models for dispersed counts. Statistical Modelling 17, 359--380.
+#'   regression models for dispersed counts. Statistical Modelling 17, 359--380.
 #'
-#' Johnson, S. G. (2018). \href{https://CRAN.R-project.org/package=nloptr}{The
-#' nlopt nonlinear-optimization package}
+#'   Johnson, S. G. (2018). \href{https://CRAN.R-project.org/package=nloptr}{The
+#'   nlopt nonlinear-optimization package}
 #'
 #' @examples
 #' Bids$size.sq <- Bids$size^2
@@ -190,7 +192,7 @@ glm.CMP <- function(formula.mu, formula.nu, init.beta = NULL,
   fit$pars <- fit$solution
 
   results <- list(
-    todo = fit,
+    nloptr = fit,
     offset = unname(stats::model.extract(a.mu, "offset")),
     aic = 2 * (fit$objective) + (q1 + q2) * 2,
     bic = 2 * (fit$objective) + (q1 + q2) * log(sum(weights)),

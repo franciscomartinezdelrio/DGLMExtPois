@@ -300,11 +300,11 @@ glm.hP <- function(formula.mu, formula.gamma, init.beta = NULL,
                         eval_jac_g_eq = constraints_grad,
                         opts = my_opts
   )
-  cat("loglik:", total_loglik, '\n')
-  cat("loglik_grad:", total_loglik_grad, '\n')
-  cat("constraints:", time_constraints, '\n')
-  cat("constraints_grad:", time_constraints_grad, '\n')
-  cat(tiempo, '\n')
+  # cat("loglik:", total_loglik, '\n')
+  # cat("loglik_grad:", total_loglik_grad, '\n')
+  # cat("constraints:", time_constraints, '\n')
+  # cat("constraints_grad:", time_constraints_grad, '\n')
+  # cat(tiempo, '\n')
 
   fit$pars <- fit$solution
 
