@@ -121,9 +121,10 @@ fit <- glm.CMP(formula.mu = numbids ~ leglrest + rearest + finrest +
 summary(fit)
 }
 \references{
-Huang, A. (2017). Mean-parametrized Conway–Maxwell–Poisson
-  regression models for dispersed counts. Statistical Modelling 17, 359--380.
+Alan Huang (2017). "Mean-parametrized Conway–Maxwell–Poisson
+  regression models for dispersed counts", Statistical Modelling, 17(6), pp.
+  359--380.
 
-  Johnson, S. G. (2018). \href{https://CRAN.R-project.org/package=nloptr}{The
+  S. G. Johnson (2018). \href{https://CRAN.R-project.org/package=nloptr}{The
   nlopt nonlinear-optimization package}
 }

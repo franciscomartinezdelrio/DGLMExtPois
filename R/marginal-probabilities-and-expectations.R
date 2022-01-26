@@ -3,8 +3,8 @@
 #'
 #'The \code{hP_expected} and \code{CMP_expected} functions calculate the
 #'probability distribution of the count response variable Y for each observation
-#'and obtain the corresponding expected frequencies. It is an informal way to
-#'evaluate the fit of the hP or CMP model by comparing the predicted
+#'and obtain the corresponding expected frequencies. It is an informal way of
+#'assessing the fit of the hP or CMP model by comparing the predicted
 #'distribution of counts with the observed distribution.
 #'
 #'The average expected probabilities are computed as \deqn{\bar(Pr)(y=k) =
@@ -29,11 +29,13 @@
 #'  \code{frequencies} and \code{observed_freq}.} \item{\code{chi2}}{sum of the
 #'  square of differences between \code{frequencies} and \code{observed_freq}.}
 #'
-#'@references Hilbe, J. M. (2011).Negative Binomial Regression. (2nd ed.).
-#'  Cambridge University Press.
+#'@references
 #'
-#'  Long, J. S. & Freese, J. (2014). Regression Models for Categorical Dependent
-#'  Variables using STATA. (3rd ed.). Stata Press.
+#'J. M. Hilbe (2011). Negative Binomial Regression. (2nd ed.). Cambridge
+#'University Press.
+#'
+#'M. Scott Long and Jeremy Freese (2014). Regression Models for Categorical
+#'Dependent Variables using STATA. (3rd ed.). Stata Press.
 #'
 #'@name expected
 NULL

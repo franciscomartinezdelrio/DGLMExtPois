@@ -136,10 +136,10 @@ fit <- glm.hP(formula.mu = numbids ~ leglrest + rearest + finrest +
 summary(fit)
 }
 \references{
-Saez-Castillo, A.J. & Conde-Sanchez, A. (2013). "A hyper-Poisson regression
-model for overdispersed and underdispersed count data", Computational
-Statistics & Data Analysis, vol. 61(C), pages 148--157
+Antonio J. Saez-Castillo and Antonio Conde-Sanchez (2013). "A hyper-Poisson
+regression model for overdispersed and underdispersed count data",
+Computational Statistics & Data Analysis, 61, pp. 148--157.
 
-Johnson, S. G. (2018). \href{https://CRAN.R-project.org/package=nloptr}{The
+S. G. Johnson (2018). \href{https://CRAN.R-project.org/package=nloptr}{The
 nlopt nonlinear-optimization package}
 }
