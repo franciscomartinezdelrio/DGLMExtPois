@@ -154,7 +154,8 @@ simulation_hp <- function(object, type) {
     the_call <- object$call
     the_call[["data"]] = data
     fit <- tryCatch(eval(the_call),
-                    error = function(e) TRUE)
+                    error = function(e) TRUE,
+                    warning = function(e) TRUE)
     if (is.logical(fit))
       next
     if(any(is.nan(res_hp(fit, type))))
