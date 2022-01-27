@@ -85,11 +85,12 @@ CMP.fit <- glm.CMP(formula.mu = numbids ~ leglrest + rearest + finrest +
 r <- residuals(CMP.fit)
 }
 \references{
-Dunn, P.K., Smyth, G.K. (1996). Randomized quantile residuals.
- Journal of Computational and Graphical Statistics, 5(3), 236-244.
+Peter K. Dunn and Gordon K. Smyth (1996). "Randomized quantile
+ residuals". Journal of Computational and Graphical Statistics, 5(3), pp.
+ 236-244.
 
- Atkinson, A. (1981). Two graphical displays for outlying and influential
- observations in regression. Biometrika, 68 (1), 13–20.
+ A. C. Atkinson (1981). "Two graphical displays for outlying and influential
+ observations in regression". Biometrika, 68(1), pp. 13–20.
 }
 \seealso{
 \code{\link{plots}}
