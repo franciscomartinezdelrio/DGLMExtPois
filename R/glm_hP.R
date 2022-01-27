@@ -182,6 +182,148 @@ glm.hP <- function(formula.mu, formula.gamma, init.beta = NULL,
   q1 <- ncol(matrizmu) # Number of coefficients of mean equation
   q2 <- ncol(matrizgamma) # Number of coefficients of dispersion equation
 
+  global_lambda <- NULL
+  global_gamma <- NULL
+  f11_cache <- NULL
+  # 1f1(1,gamma;lambda) to normalize hP
+  f11 <- function(lambda, gamma, maxiter_series = 10000, tol = 1.0e-10) {
+    if (identical(lambda, global_lambda) && identical(gamma, global_gamma))
+      return(f11_cache)
+    global_lambda <<- lambda
+    global_gamma <<- gamma
+    fac  <- 1
+    temp <- 1
+    L    <- gamma
+    for (n in seq_len(maxiter_series)) {
+      fac    <- fac * lambda / L
+      series <- temp + fac
+      if (stopping(series - temp, tol)){
+        f11_cache <<- Re(series)
+        return(f11_cache)
+      }
+      temp   <- series
+      L      <- L + 1
+    }
+    if (tol >= 0)
+      warning("Tolerance is not met")
+    f11_cache <<- Re(series)
+    return(f11_cache)
+  }
+
+  # E[Y]
+  lambda_means_hp <- NULL
+  gamma_means_hp <- NULL
+  means_hp_cache <- NULL
+  means_hp <- function(lambda, gamma, maxiter_series = 10000, tol = 1.0e-10, f11_comp = NULL) {
+    if (identical(lambda, lambda_means_hp) && identical(gamma, gamma_means_hp))
+      return(means_hp_cache)
+    lambda_means_hp <<- lambda
+    gamma_means_hp <<- gamma
+    if (is.null(f11_comp))
+      f11_comp <- f11(lambda, gamma, maxiter_series, tol)
+    L    <- gamma
+    fac  <- 1
+    temp <- 0
+    for (n in seq_len(maxiter_series)) {
+      fac    <- fac * lambda / L
+      series <- temp + n * fac
+      if (stopping(series - temp, tol)){
+        means_hp_cache <<- Re(series) / f11_comp
+        return(means_hp_cache)
+      }
+      temp   <- series
+      L      <- L + 1
+    }
+    if (tol >= 0)
+      warning("Tolerance is not met")
+    means_hp_cache <<- Re(series) / f11_comp
+    return(means_hp_cache)
+  }
+
+  # Var(Y)
+  variances_hp <- function(lambda, gamma, maxiter_series = 10000, tol = 1.0e-10,
+                           f11_comp = NULL, means_hp_comp = NULL)
+  {
+    if (is.null(f11_comp))
+      f11_comp <- f11(lambda, gamma, maxiter_series, tol)
+    if (is.null(means_hp_comp))
+      means_hp_comp <- means_hp(lambda, gamma, maxiter_series, tol, f11_comp)
+    L    <- gamma
+    fac  <- 1
+    temp <- 0
+    for (n in seq_len(maxiter_series)) {
+      fac    <- fac * lambda / L
+      series <- temp + n ^ 2 * fac
+      if (stopping(series - temp, tol)){
+        return(Re(series) / f11_comp - means_hp_comp ^ 2)
+      }
+      temp   <- series
+      L      <- L + 1
+    }
+    if (tol >= 0)
+      warning("Tolerance is not met")
+    return(Re(series) / f11_comp - means_hp_comp ^ 2)
+  }
+
+  # E[psi(gamma + Y)]
+  lambda_means_psiy <- NULL
+  gamma_means_psiy <- NULL
+  means_psiy_cache <- NULL
+  means_psiy <- function(lambda, gamma, maxiter_series = 10000, tol = 1.0e-10,
+                         f11_comp = NULL) {
+    if (identical(lambda, lambda_means_psiy) && identical(gamma, gamma_means_psiy))
+      return(means_psiy_cache)
+    lambda_means_psiy <<- lambda
+    gamma_means_psiy <<- gamma
+    if (is.null(f11_comp))
+      f11_comp <- f11(lambda, gamma, maxiter_series, tol)
+    L    <- gamma
+    fac  <- 1
+    temp <- digamma(gamma)
+    for (n in seq_len(maxiter_series)) {
+      fac    <- fac * lambda / L
+      series <- temp + digamma(gamma + n) * fac
+      if (stopping(series - temp, tol)){
+        means_psiy_cache <<- Re(series) / f11_comp
+        return(means_psiy_cache)
+      }
+      temp   <- series
+      L      <- L + 1
+    }
+    if (tol >= 0)
+      warning("Tolerance is not met")
+    means_psiy_cache <<- Re(series) / f11_comp
+    return(means_psiy_cache)
+  }
+
+  # Cov(Y, psi(gamma + Y))
+  covars_psiy <- function(lambda, gamma, maxiter_series = 10000, tol = 1.0e-10,
+                          f11_comp = NULL, means_hp_comp = NULL) {
+    if (is.null(f11_comp))
+      f11_comp <- f11(lambda, gamma, maxiter_series, tol)
+    if (is.null(means_hp_comp))
+      means_hp_comp <- means_hp(lambda, gamma, maxiter_series, tol, f11_comp)
+    L    <- gamma
+    fac  <- 1
+    temp <- 0
+    for (n in seq_len(maxiter_series)) {
+      fac    <- fac * lambda / L
+      series <- temp + n * digamma(gamma + n) * fac
+      if (stopping(series - temp, tol)){
+        return(Re(series) / f11_comp -
+                 means_hp_comp *
+                 means_psiy(lambda, gamma, maxiter_series, tol, f11_comp))
+      }
+      temp   <- series
+      L      <- L + 1
+    }
+    if (tol >= 0)
+      warning("Tolerance is not met")
+    return(Re(series) / f11_comp -
+             means_hp_comp *
+             means_psiy(lambda, gamma, maxiter_series, tol, f11_comp))
+  }
+
   total_loglik <- 0
   loglik <- function(param) {
     ptm <- proc.time()

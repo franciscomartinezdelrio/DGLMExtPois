@@ -8,7 +8,6 @@ stopping <- function (x, tol) {
 
 # 1f1(1,gamma;lambda) to normalize hP
 f11 <- function(lambda, gamma, maxiter_series = 10000, tol = 1.0e-10) {
-  cat("f11\n", file = "f11.txt", append = TRUE)
   fac  <- 1
   temp <- 1
   L    <- gamma
@@ -28,7 +27,6 @@ f11 <- function(lambda, gamma, maxiter_series = 10000, tol = 1.0e-10) {
 
 # E[Y]
 means_hp <- function(lambda, gamma, maxiter_series = 10000, tol = 1.0e-10, f11_comp = NULL) {
-  # cat("x\n", file = "means_hp.txt", append = TRUE)
   if (is.null(f11_comp))
     f11_comp <- f11(lambda, gamma, maxiter_series, tol)
   L    <- gamma
@@ -124,10 +122,9 @@ covars_psiy <- function(lambda, gamma, maxiter_series = 10000, tol = 1.0e-10,
 }
 
 # Var(psi(gamma + Y))
-variances_psiy <- function(lambda, gamma, maxiter_series = 10000, tol = 1.0e-10, f11_comp = NULL)
+variances_psiy <- function(lambda, gamma, maxiter_series = 10000, tol = 1.0e-10)
 {
-  if (is.null(f11_comp))
-    f11_comp <- f11(lambda, gamma, maxiter_series, tol)
+  f11_comp <- f11(lambda, gamma, maxiter_series, tol)
   L    <- gamma
   fac  <- 1
   temp <- digamma(gamma) ^ 2
