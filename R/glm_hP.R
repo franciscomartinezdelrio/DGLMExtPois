@@ -382,7 +382,6 @@ glm.hP <- function(formula.mu, formula.gamma, init.beta = NULL,
   )
 
   my_opts <- list(algorithm = 'NLOPT_LD_SLSQP',
-                  tol_rel = 0.01,
                   maxeval = 1000, # 100000,
                   local_opts = my_local_opts,
                   print_level = 0

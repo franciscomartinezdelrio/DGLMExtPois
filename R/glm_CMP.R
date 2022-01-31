@@ -172,7 +172,6 @@ glm.CMP <- function(formula.mu, formula.nu, init.beta = NULL,
                         xtol_rel = 0.01
   )
   my_opts <- list(algorithm = 'NLOPT_LD_SLSQP',
-                  tol_rel = 0.01,
                   maxeval = 1000,
                   local_opts = my_local_opts,
                   print_level = 0
