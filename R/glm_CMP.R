@@ -117,6 +117,87 @@ glm.CMP <- function(formula.mu, formula.nu, init.beta = NULL,
       stop("negative weights not allowed")
   }
 
+  global_lambda_Z <- NULL
+  global_nu_Z <- NULL
+  Z_cache <- NULL
+  Z <- function(lambda, nu, maxiter_series, tol) {
+    if (identical(lambda, global_lambda_Z) && identical(nu, global_nu_Z))
+      return(Z_cache)
+    global_lambda_Z <<- lambda
+    global_nu_Z <<- nu
+    fac  <- 1
+    temp <- 1
+    for (n in seq_len(maxiter_series)) {
+      fac    <- fac * lambda / (n^nu)
+      series <- temp + fac
+      if (stopping(series - temp, tol)){  # & n >= 100){
+        Z_cache <<- Re(series)
+        return(Z_cache)
+      }
+      temp <- series
+    }
+    Z_cache <<- Re(series)
+    return(Z_cache)
+  }
+
+  global_lambda_means_cmp <- NULL
+  global_nu_means_cmp <- NULL
+  means_cmp_cache <- NULL
+  means_cmp <- function(lambda, nu, maxiter_series = 10000, tol = 1.0e-10) {
+    if (identical(lambda, global_lambda_means_cmp) && identical(nu, global_nu_means_cmp))
+      return(means_cmp_cache)
+    global_lambda_means_cmp <<- lambda
+    global_nu_means_cmp <<- nu
+    fac  <- 1
+    temp <- 0
+    for (n in seq_len(maxiter_series)) {
+      fac    <- fac * lambda / (n ^ nu)
+      series <- temp + n * fac
+      temp   <- series
+    }
+    means_cmp_cache <<- Re(series) / Z(lambda, nu, maxiter_series, tol)
+    means_cmp_cache
+  }
+
+  global_lambda_means_lfact <- NULL
+  global_nu_means_lfact <- NULL
+  means_lfact_cache <- NULL
+  means_lfact <- function(lambda, nu, maxiter_series = 10000, tol = 1.0e-10) {
+    if (identical(lambda, global_lambda_means_lfact) && identical(nu, global_nu_means_lfact))
+      return(means_lfact_cache)
+    global_lambda_means_lfact <<- lambda
+    global_nu_means_lfact <<- nu
+    fac  <- 1
+    temp <- 0
+    for (n in seq_len(maxiter_series)) {
+      fac    <- fac * lambda / (n ^ nu)
+      series <- temp + lfactorial(n) * fac
+      temp   <- series
+    }
+    means_lfact_cache <<- Re(series) / Z(lambda, nu, maxiter_series, tol)
+    means_lfact_cache
+  }
+
+  global_lambda_variances_cmp <- NULL
+  global_nu_variances_cmp <- NULL
+  variances_cmp_cache <- NULL
+  variances_cmp <- function(lambda, nu, maxiter_series = 10000, tol = 1.0e-10) {
+    if (identical(lambda, global_lambda_variances_cmp) &&
+        identical(nu, global_nu_variances_cmp))
+      return(variances_cmp_cache)
+    global_lambda_variances_cmp <<- lambda
+    global_nu_variances_cmp <<- nu
+    fac  <- 1
+    temp <- 0
+    for (n in seq_len(maxiter_series)) {
+      fac    <- fac * lambda / (n^nu)
+      series <- temp + n^2 * fac
+      temp   <- series
+    }
+    variances_cmp_cache <<- Re(series) / Z(lambda, nu, maxiter_series, tol) - means_cmp(lambda, nu, maxiter_series, tol)^2
+    variances_cmp_cache
+  }
+
   n  <- length(y)
   q1 <- ncol(matrizmu)
   q2 <- ncol(matriznu)
