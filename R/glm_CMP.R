@@ -48,11 +48,20 @@
 #'   nlopt nonlinear-optimization package}
 #'
 #' @examples
+#' ## Fit model
 #' Bids$size.sq <- Bids$size^2
 #' fit <- glm.CMP(formula.mu = numbids ~ leglrest + rearest + finrest +
 #'                whtknght + bidprem + insthold + size + size.sq + regulatn,
 #'                formula.nu = numbids ~ 1, data = Bids)
+#'
+#' ## Summary of the model
 #' summary(fit)
+#'
+#' ## To see termination condition of the optimization process
+#' fit$nloptr$message
+#'
+#' ## To see number of iterations of the optimization process
+#' fit$nloptr$iterations
 glm.CMP <- function(formula.mu, formula.nu, init.beta = NULL,
                     init.delta = NULL, data, weights, subset, na.action,
                     maxiter_series = 1000, tol = 0, offset, opts = NULL,

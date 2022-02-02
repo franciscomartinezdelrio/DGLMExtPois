@@ -24,10 +24,12 @@ Computes the Akaike's information criterion or the Schwarz's Bayesian criterion
 for COM-Poisson Fits
 }
 \examples{
+## Estimate a COM-Poisson model
 Bids$size.sq <- Bids$size ^ 2
 fit <- glm.CMP(formula.mu = numbids ~ leglrest + rearest + finrest +
               whtknght + bidprem + insthold + size + size.sq + regulatn,
               formula.nu = numbids ~ 1, data = Bids)
+## Compute its AIC and BIC
 AIC(fit)
 BIC(fit)
 }

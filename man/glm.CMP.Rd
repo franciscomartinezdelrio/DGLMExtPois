@@ -114,11 +114,20 @@ Fit a COM-Poisson double generalized linear model using as optimizer the
 NLOPT_LD_SLSQP algorithm of function \code{\link[nloptr]{nloptr}}.
 }
 \examples{
+## Fit model
 Bids$size.sq <- Bids$size^2
 fit <- glm.CMP(formula.mu = numbids ~ leglrest + rearest + finrest +
                whtknght + bidprem + insthold + size + size.sq + regulatn,
                formula.nu = numbids ~ 1, data = Bids)
+
+## Summary of the model
 summary(fit)
+
+## To see termination condition of the optimization process
+fit$nloptr$message
+
+## To see number of iterations of the optimization process
+fit$nloptr$iterations
 }
 \references{
 Alan Huang (2017). "Mean-parametrized Conway–Maxwell–Poisson
