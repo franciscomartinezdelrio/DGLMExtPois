@@ -54,10 +54,14 @@ NULL
 
 #' @rdname residuals
 #' @examples
+#' ## Estimate a hyper-Poisson model
 #' Bids$size.sq <- Bids$size ^ 2
 #' hP.fit <- glm.hP(formula.mu = numbids ~ leglrest + rearest + finrest +
 #'               whtknght + bidprem + insthold + size + size.sq + regulatn,
 #'               formula.gamma = numbids ~ 1, data = Bids)
+#'
+#' ## Compute residuals
+#'
 #' r <- residuals(hP.fit)
 #' @export
 residuals.glm_hP <- function(object, type = c("pearson", "response", "quantile"),
@@ -117,8 +121,8 @@ res_hp <- function(object, type) {
   lambda <- object$lambdas
   gamma  <- object$gammas
   if (type == "pearson") {
-    mu       <- object$fitted.values
-    #variance <- lambda + (lambda - (gamma - 1)) * mu - mu ^ 2
+    # mu       <- object$fitted.values
+    # variance <- lambda + (lambda - (gamma - 1)) * mu - mu ^ 2
     variance <- variances_hp(lambda, gamma, object$maxiter_series, object$tol)
     r        <- as.vector(object$residuals / sqrt(variance))
     names(r) <- seq(r)
@@ -189,10 +193,15 @@ get_response <- function(formula) {
 
 #' @rdname residuals
 #' @examples
+#' ## Estimate a COM-Poisson model
+#'
 #' Bids$size.sq <- Bids$size ^ 2
 #' CMP.fit <- glm.CMP(formula.mu = numbids ~ leglrest + rearest + finrest +
 #'               whtknght + bidprem + insthold + size + size.sq + regulatn,
 #'               formula.nu = numbids ~ 1, data = Bids)
+#'
+#' ## Compute its residuals
+#'
 #' r <- residuals(CMP.fit)
 #' @export
 residuals.glm_CMP <- function(object, type = c("pearson", "response","quantile"),

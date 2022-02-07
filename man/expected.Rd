@@ -44,15 +44,25 @@ of the square of differences (similar to the Pearson statistic of goodness of
 fit).
 }
 \examples{
+## Fit a hyper-Poisson model
+
 Bids$size.sq <- Bids$size ^ 2
 hP.fit <- glm.hP(formula.mu = numbids ~ leglrest + rearest + finrest +
                  whtknght + bidprem + insthold + size + size.sq + regulatn,
                  formula.gamma = numbids ~ 1, data = Bids)
+
+## Compute the expected probabilities and the frequencies
+
 hP_expected(hP.fit)
+## Estimate a COM-Poisson model
+
 Bids$size.sq <- Bids$size ^ 2
 CMP.fit <- glm.CMP(formula.mu = numbids ~ leglrest + rearest + finrest +
                    whtknght + bidprem + insthold + size + size.sq + regulatn,
                    formula.nu = numbids ~ 1, data = Bids)
+
+## Compute the expected probabilities and the frequencies
+
 CMP_expected(CMP.fit)
 }
 \references{

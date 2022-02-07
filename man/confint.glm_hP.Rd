@@ -27,9 +27,12 @@ Computes confidence intervals for one or more parameters in a \code{"glm_hP"}
 object.
 }
 \examples{
+## Estimate the model
 Bids$size.sq <- Bids$size ^ 2
 fit <- glm.hP(formula.mu = numbids ~ leglrest + rearest + finrest +
          whtknght + bidprem + insthold + size + size.sq + regulatn,
               formula.gamma = numbids ~ 1, data = Bids)
+
+## Compute confidence intervals for parameters
 confint(fit)
 }

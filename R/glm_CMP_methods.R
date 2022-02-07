@@ -17,6 +17,7 @@ NULL
 #' fit <- glm.CMP(formula.mu = numbids ~ leglrest + rearest + finrest +
 #'               whtknght + bidprem + insthold + size + size.sq + regulatn,
 #'               formula.nu = numbids ~ 1, data = Bids)
+#'
 #' ## Compute its AIC and BIC
 #' AIC(fit)
 #' @export
@@ -80,11 +81,14 @@ print.glm_CMP <- function (x, digits = max(3L, getOption("digits") - 3L), ...) {
 #' @return A vector with the prediction means.
 #'
 #' @examples
+#' ## Fit a model
 #' Bids$size.sq <- Bids$size ^ 2
 #' fit <- glm.CMP(formula.mu = numbids ~ leglrest + rearest + finrest +
 #'                whtknght + bidprem + insthold + size + size.sq + regulatn,
 #'                formula.nu = numbids ~ 1, data = Bids)
-#' predict(fit)
+#'
+#' ## As the newdata parameter is not used the fitted values are obtained
+#' predict(fit, type = "response")
 #' @export
 predict.glm_CMP <- function(object, newdata = NULL,
                            type = c("link", "response"), ...) {
@@ -140,10 +144,13 @@ coef.glm_CMP <- function(object, ...) {
 #'   limits for each \code{beta} parameter. These will be labelled as
 #'   (1-level)/2 and 1 - (1-level)/2 in (by default 2.5\% and 97.5\%).
 #' @examples
+#' ## Estimate the model
 #' Bids$size.sq <- Bids$size ^ 2
 #' fit <- glm.CMP(formula.mu = numbids ~ leglrest + rearest + finrest +
 #'                whtknght + bidprem + insthold + size + size.sq + regulatn,
 #'                formula.nu = numbids ~ 1, data = Bids)
+#'
+#' ## Compute confidence intervals
 #' confint(fit)
 #' @export
 confint.glm_CMP <- function (object, parm, level = 0.95, ...)

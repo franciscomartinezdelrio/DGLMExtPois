@@ -12,10 +12,13 @@ NULL
 #' @rdname AIC
 #' @export
 #' @examples
+#' ## Fit a hyper-Poisson model
 #' Bids$size.sq <- Bids$size ^ 2
 #' fit <- glm.hP(formula.mu = numbids ~ leglrest + rearest + finrest +
 #'               whtknght + bidprem + insthold + size + size.sq + regulatn,
 #'               formula.gamma = numbids ~ 1, data = Bids)
+#'
+#' ## Obtain its AIC and BIC
 #' AIC(fit)
 AIC.glm_hP <- function(object, ..., k = 2) {
   others <- list(...)
@@ -79,11 +82,14 @@ print.glm_hP <- function (x, digits = max(3L, getOption("digits") - 3L), ...) {
 #'
 #' @examples
 #' data(Bids)
+#' ## Fit a hype-Poisson model
 #' Bids$size.sq <- Bids$size ^ 2
 #' fit <- glm.hP(formula.mu = numbids ~ leglrest + rearest + finrest +
 #'               whtknght + bidprem + insthold + size + size.sq + regulatn,
 #'               formula.gamma = numbids ~ 1, data = Bids)
-#' predict(fit)
+#'
+#' ## As the newdata parameter is not used the fitted values are obtained
+#' predict(fit, type = "response")
 #' @export
 predict.glm_hP <- function(object, newdata = NULL,
                           type = c("link", "response"), ...) {
@@ -143,10 +149,13 @@ format.perc <- function(probs, digits)
 #'   limits for each \code{beta} parameter. These will be labelled as
 #'   (1-level)/2 and 1 - (1-level)/2 in \% (by default 2.5\% and 97.5\%).
 #' @examples
+#' ## Estimate the model
 #' Bids$size.sq <- Bids$size ^ 2
 #' fit <- glm.hP(formula.mu = numbids ~ leglrest + rearest + finrest +
 #'          whtknght + bidprem + insthold + size + size.sq + regulatn,
 #'               formula.gamma = numbids ~ 1, data = Bids)
+#'
+#' ## Compute confidence intervals for parameters
 #' confint(fit)
 #' @export
 confint.glm_hP <- function (object, parm, level = 0.95, ...)
