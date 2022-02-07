@@ -1,7 +1,8 @@
-## DGLMExtPois 0.1.4
+## DGLMExtPois 0.2.0
 
 * Removed dependency with progress package
 * Faster model estimation
+* Improved documentation
 
 ## DGLMExtPois 0.1.3
 

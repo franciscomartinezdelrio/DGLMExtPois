@@ -1,7 +1,7 @@
 Package: DGLMExtPois
 Type: Package
 Title: Double Generalized Linear Models Extending Poisson Regression
-Version: 0.1.4
+Version: 0.2.0
 Authors@R: c(
     person("Antonio Jose", "Saez-Castillo", role = c("aut"), email = "ajsaez@ujaen.es"),
     person("Antonio", "Conde-Sanchez", role = c("aut"), email = "aconde@ujaen.es"),
