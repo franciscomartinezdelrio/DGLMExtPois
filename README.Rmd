@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 # DGLMExtPois
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/franciscomartinezdelrio/DGLMExtPois/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/franciscomartinezdelrio/DGLMExtPois/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 DGLMExtPois is a package that contains statistical functions for the model
