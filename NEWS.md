@@ -1,3 +1,7 @@
+# DGLMExtPois 0.2.2
+
+* CITATION file added
+
 # DGLMExtPois 0.2.1
 
 * More unit tests have been developed
