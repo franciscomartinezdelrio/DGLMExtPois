@@ -164,7 +164,7 @@ print.summary.glm_CMP <- function (x, digits = max(3, getOption("digits") - 3),
   } else {
     print(x$coeff_betas)
   }
-  cat("\nDispersion model coefficients (with logit link):\n")
+  cat("\nDispersion model coefficients (with log link):\n")
   if (ncol(x$coeff_deltas) > 1) {
     stats::printCoefmat(x$coeff_deltas,
                         digits = digits,
