@@ -163,7 +163,9 @@ simulation_hp <- function(object, type) {
                     warning = function(e) TRUE)
     if (is.logical(fit))
       next
-    if(any(is.nan(res_hp(fit, type))))
+    if (any(is.nan(res_hp(fit, type))))
+      next
+    if (fit$code < 0)
       next
     break
   }
@@ -294,7 +296,9 @@ simulation_cmp <- function(object, type) {
                     error = function(e) TRUE)
     if (is.logical(fit))
       next
-    if(any(is.nan(res_cmp(fit, type))))
+    if (any(is.nan(res_cmp(fit, type))))
+      next
+    if (fit$code < 0)
       next
     break
   }

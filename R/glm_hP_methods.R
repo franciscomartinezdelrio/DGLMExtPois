@@ -102,7 +102,7 @@ predict.glm_hP <- function(object, newdata = NULL,
     )
     return(r)
   }
-  formula.mu <- stats::as.formula(object$call[["formula.mu"]])
+  formula.mu <- stats::as.formula(object$formula.mu)
   a.mu <- stats::model.frame(formula.mu, data = newdata)
   offset <- stats::model.extract(a.mu, "offset")
   if (is.null(offset)) {
@@ -114,9 +114,9 @@ predict.glm_hP <- function(object, newdata = NULL,
                                                      na.action = NULL)
   )
   if (type == "link") {
-    r <- offset + matrizmu %*% object$todo$pars[1:ncol(matrizmu)]
+    r <- offset + matrizmu %*% object$betas
   } else if (type == "response") {
-    r <- exp(offset + matrizmu %*% object$todo$pars[1:ncol(matrizmu)])
+    r <- exp(offset + matrizmu %*% object$betas)
   }
   r <- as.vector(r)
   names(r) <- seq(r)

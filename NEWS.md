@@ -1,3 +1,10 @@
+# DGLMExtPois 0.2.4
+
+* Some mistakes corrected in predict.glm_hP
+* Some mistakes corrected in predict.glm_CMP
+* Function simulation_hp does new simulation if convergence code is negative
+* Function simulation_CMP does new simulation if convergence code is negative
+
 # DGLMExtPois 0.2.3
 
 * DGLMExtPois-package file modified to comply with CRAN
